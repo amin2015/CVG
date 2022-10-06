@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+           <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        {% endblock %}
+
+        {% block javascripts %}
+            <!-- TinyMCE -->
+            <script src="{{ asset('assets/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
+            <script>
+                tinymce.init({
+                    selector: '#profile_head, #profile_reference,#profile_personnelProjects, #profile_professionalExperience, #profile_footer',
+                    plugins: [
+                        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+                        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+                        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+                    ],
+                    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                        'bullist numlist checklist outdent indent | removeformat | code table help',
+                    init_instance_callback : function(editor) {
+                        document.querySelectorAll('[role="alert"]').forEach(function (el){
+                            el.style.display = 'none';
+                        });
+                    }
+                })
+
+            </script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

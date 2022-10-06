@@ -1,0 +1,64 @@
+<div class="p-4 mb-3 border rounded-3 bg-light">
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="b-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.fileName, {"label": "Nom de fichier"}) }}
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.logo, {"label": "Logo", "attr": { "class": "form-control"}}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.head, {"label": "Entête"}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.technicalSkills, {"label": "Compétences technique", "attr": { "rows": "20"}}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.trainings, {"label": "Formations", "attr": { "rows": "20"}}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.reference, {"label": "Veille professionnelle & références"}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.personnelProjects, {"label": "Projets personnels"}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.language, {"label": "Langues", "attr": { "rows": "6"}}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.professionalExperience, {"label": "Expérience professionnelle"}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.footer, {"label": "Pied de page"}) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.export, {"label": "Exporter", "attr": { "class": "btn btn-primary mb-3"}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+
+
