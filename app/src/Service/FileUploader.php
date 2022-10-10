@@ -27,8 +27,9 @@ class FileUploader
 
         try {
             //Remove all files in public uploads
-            $fileSystem = new Filesystem();
-            $fileSystem->remove($this->targetDirectory);
+            foreach(glob($this->getTargetDirectory().'*.*') as $f){
+                unlink($f);
+            }
             //Move File
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
