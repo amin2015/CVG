@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Cv;
 use App\Entity\Profile;
+use App\Form\CvType;
 use App\Form\ProfileType;
+use App\Repository\CvRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,6 +35,10 @@ class ProfileController extends AbstractController
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            if($form->get('save')->isClicked()){
+                $em->persist($profile);
+                $em->flush();
+            }
             /** PhpWord */
             $phpWord = new PhpWord();
             $section = $phpWord->addSection();

@@ -25,6 +25,7 @@ class ProfileType extends AbstractType
             ->add('professionalExperience')
             ->add('footer')
             ->add('export', SubmitType::class)
+            ->add('save', SubmitType::class)
         ;
     }
 
