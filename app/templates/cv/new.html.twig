@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Header{% endblock %}
+
+{% block body %}
+    <h1>Génération de CV</h1>
+
+    {{ include('cv/_form.html.twig') }}
+
+    <script>
+        const addFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('div');
+            item.classList.add('tag-theme');
+            item.classList.add('col-sm-6');
+            item.classList.add('mb-3');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+            console.log(item);
+
+            collectionHolder.dataset.index++;
+            // add a delete link to the new form
+            addTagFormDeleteLink(item);
+        };
+
+        const addTagFormDeleteLink = (item) => {
+            const removeFormButton = document.createElement('button');
+            removeFormButton.innerText = 'Delete this tag';
+
+            item.append(removeFormButton);
+
+            removeFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // remove the li for the tag form
+                item.remove();
+            });
+        }
+
+        document
+            .querySelectorAll('.add_item_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addFormToCollection)
+            });
+
+        document
+            .querySelectorAll('.tag-theme')
+            .forEach((tag) => {
+                console.log(tag);
+                addTagFormDeleteLink(tag)
+            })
+    </script>
+{% endblock %}
+
+

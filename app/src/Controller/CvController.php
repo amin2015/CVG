@@ -4,9 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Cv;
 use App\Form\CvType;
-use App\Repository\CvRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
+use App\Service\PhpDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,15 +25,19 @@ class CvController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cv_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, PhpDoc $phpDoc): Response
     {
         $cv = new Cv();
         $form = $this->createForm(CvType::class, $cv);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $em->persist($cv);
-            $em->flush();
-            return $this->redirectToRoute('app_cv');
+            if($form->get('save')->isClicked()){
+                $em->persist($cv);
+                $em->flush();
+                return $this->redirectToRoute('app_cv');
+            }else{
+                return $phpDoc->generatePhpWord($form);
+            }
         }
         return $this->render('cv/new.html.twig', [
             'controller_name' => 'CvCon_newtroller',

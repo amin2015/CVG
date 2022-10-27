@@ -1,0 +1,40 @@
+<div class="p-4 mb-3 border rounded-3 bg-light">
+    {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
+    <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+    </div>
+    <div class="b-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.fileName, {"label": "Nom de fichier"}) }}
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.headerTitle, {"label": "Titre de l'entête", "attr": { "class": "form-control"}}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.headerSkills, {"label": "Technologies de l'entête"}) }}
+        </div>
+    </div>
+    <div class="mb-10 row">
+        <h3>Thèmes</h3>
+        <ul class="theme d-lg-block"
+            data-index="{{ form.theme|length > 0 ? form.theme|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.theme.vars.prototype)|e('html_attr') }}">
+            <button type="button" class="add_item_link" data-collection-holder-class="theme">Ajouter un thème</button>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.export, {"label": "Exporter", "attr": { "class": "btn btn-primary mb-3"}}) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.save, {"label": "Enregistrer", "attr": { "class": "btn btn-success mb-3"}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+</div>
+
+
