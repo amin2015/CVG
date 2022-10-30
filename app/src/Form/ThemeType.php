@@ -16,6 +16,15 @@ class ThemeType extends AbstractType
             ->add('name', null, [
                 'label' => 'Nom du thème'
             ])
+            ->add('subTheme', CollectionType::class, [
+                'entry_type' => SubThemeType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'block_name' => 'wrapped_text',
+            ])
+
+        ;
         ;
     }
 

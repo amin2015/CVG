@@ -25,7 +25,7 @@ class Theme
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\OneToMany(mappedBy: 'theme', targetEntity: SubTheme::class)]
+    #[ORM\OneToMany(mappedBy: 'theme', targetEntity: SubTheme::class, cascade: ['persist'])]
     private Collection $subTheme;
 
     public function __construct()
@@ -74,4 +74,32 @@ class Theme
 
         return $this;
     }
+
+    public function addSubTheme(SubTheme $subTheme): void
+    {
+        $this->subTheme->add($subTheme);
+    }
+
+    public function removeSubTheme(SubTheme $subTheme): void
+    {
+        // ...
+    }
+
+    /**
+     * @return ArrayCollection|Collection
+     */
+    public function getSubTheme(): ArrayCollection|Collection
+    {
+        return $this->subTheme;
+    }
+
+    /**
+     * @param ArrayCollection|Collection $subTheme
+     */
+    public function setSubTheme(ArrayCollection|Collection $subTheme): void
+    {
+        $this->subTheme = $subTheme;
+    }
+
+
 }

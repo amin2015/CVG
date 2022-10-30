@@ -39,6 +39,17 @@ class ThemeRepository extends ServiceEntityRepository
         }
     }
 
+    public function getSkills(?string $term)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.name')
+            ->where('c.name like :name')
+            ->setParameter('name', $term.'%')
+            ->distinct()
+            ->getQuery()
+            ->execute();
+    }
+
 //    /**
 //     * @return Theme[] Returns an array of Theme objects
 //     */

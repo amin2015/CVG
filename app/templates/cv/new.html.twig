@@ -1,4 +1,8 @@
 {% extends 'base.html.twig' %}
+{% form_theme form.theme 'form/custom_types.html.twig' %}
+{#{% form_theme form.theme.subTheme 'form/custom_types1.html.twig' %}#}
+
+{#{% form_theme form _self %}#}
 
 {% block title %}New Header{% endblock %}
 
@@ -10,11 +14,11 @@
     <script>
         const addFormToCollection = (e) => {
             const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-
             const item = document.createElement('div');
             item.classList.add('tag-theme');
             item.classList.add('col-sm-6');
             item.classList.add('mb-3');
+            item.classList.add('theme' + collectionHolder.dataset.index);
 
             item.innerHTML = collectionHolder
                 .dataset
@@ -30,11 +34,55 @@
             collectionHolder.dataset.index++;
             // add a delete link to the new form
             addTagFormDeleteLink(item);
+            addSubThemeFormLink(item);
+
+            $('#cv_theme_0_name').select2({
+                minimumInputLength:1,
+                "ajax": {
+                    data:function (term, page) {
+                        return { term:term, page:page };
+                    },
+                    dataType:"json",
+                    quietMillis:100,
+                    results: function (data, page) {
+                        return {results: data.results};
+                    },
+                    "url": '/cv/ajax-skill-choice'
+                },
+                id: function(object) {
+                    return object.text;
+                },
+                // Allow manually entered text in drop down.
+                createSearchChoice:function(term, data) {
+                    if ( $(data).filter( function() {
+                        return this.text.localeCompare(term)===0;
+                    }).length===0) {
+                        return {id:term, text:term};
+                    }
+                },
+            });
+
+        };
+
+        const addSubThemeFormToCollection = (e) => {
+            const collectionHolder = document.querySelector('#cv_theme_0_subTheme');
+            console.log(e.currentTarget.dataset)
+
+            $('#cv_theme_0').innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            $('#cv_theme_0').append(collectionHolder.dataset.prototype);
+            collectionHolder.dataset.index++;
         };
 
         const addTagFormDeleteLink = (item) => {
             const removeFormButton = document.createElement('button');
-            removeFormButton.innerText = 'Delete this tag';
+            removeFormButton.innerText = 'Delete this Theme';
 
             item.append(removeFormButton);
 
@@ -44,6 +92,25 @@
                 item.remove();
             });
         }
+
+        const addSubThemeFormLink = (item) => {
+            const addFormButton = document.createElement('button');
+            addFormButton.classList.add('subtheme');
+            addFormButton.innerText = 'add subtheme';
+
+            item.append(addFormButton);
+
+            addFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                addSubThemeFormToCollection(e)
+            });
+        }
+
+        // document
+        //     .querySelectorAll('.add_item_link')
+        //     .forEach(btn => {
+        //         btn.addEventListener("click", addFormToCollection)
+        //     });
 
         document
             .querySelectorAll('.add_item_link')
@@ -57,6 +124,12 @@
                 console.log(tag);
                 addTagFormDeleteLink(tag)
             })
+
+
+
+
+
+
     </script>
 {% endblock %}
 
