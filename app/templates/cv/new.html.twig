@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 {% form_theme form.theme 'form/custom_types.html.twig' %}
 {#{% form_theme form.theme.subTheme 'form/custom_types1.html.twig' %}#}
-
 {#{% form_theme form _self %}#}
 
 {% block title %}New Header{% endblock %}
 
 {% block body %}
     <h1>Génération de CV</h1>
+{#    {{ dump(form.theme) }}#}
 
     {{ include('cv/_form.html.twig') }}
 
@@ -19,7 +19,8 @@
             item.classList.add('col-sm-6');
             item.classList.add('mb-3');
             item.classList.add('theme' + collectionHolder.dataset.index);
-
+            item.setAttribute('id', 'theme' + collectionHolder.dataset.index);
+            const currentIndex = collectionHolder.dataset.index;
             item.innerHTML = collectionHolder
                 .dataset
                 .prototype
@@ -28,13 +29,22 @@
                     collectionHolder.dataset.index
                 );
 
+            // const para = document.createElement("button");
+            // para.innerText = "This is a paragraph";
+            // item.appendChild(para);
+
+            const addFormButton = document.createElement('button');
+            addFormButton.classList.add('subtheme');
+            addFormButton.innerText = 'add subtheme1';
+
+
             collectionHolder.appendChild(item);
             console.log(item);
 
             collectionHolder.dataset.index++;
             // add a delete link to the new form
             addTagFormDeleteLink(item);
-            addSubThemeFormLink(item);
+            addSubThemeFormLink(item,currentIndex);
 
             $('#cv_theme_0_name').select2({
                 minimumInputLength:1,
@@ -66,7 +76,7 @@
 
         const addSubThemeFormToCollection = (e) => {
             const collectionHolder = document.querySelector('#cv_theme_0_subTheme');
-            console.log(e.currentTarget.dataset)
+            console.log(e.currentTarget.dataset.theme)
 
             $('#cv_theme_0').innerHTML = collectionHolder
                 .dataset
@@ -93,10 +103,12 @@
             });
         }
 
-        const addSubThemeFormLink = (item) => {
+        const addSubThemeFormLink = (item, index) => {
             const addFormButton = document.createElement('button');
             addFormButton.classList.add('subtheme');
             addFormButton.innerText = 'add subtheme';
+            addFormButton.setAttribute('data-theme', 'theme' + index);
+            item.appendChild(addFormButton);
 
             item.append(addFormButton);
 

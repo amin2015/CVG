@@ -19,12 +19,14 @@
         </div>
     </div>
     <div class="mb-10 row">
-        <h3>Thèmes</h3>
-        <ul class="theme d-lg-block"
-            data-index="{{ form.theme|length > 0 ? form.theme|last.vars.name + 1 : 0 }}"
-            data-prototype="{{ form_widget(form.theme.vars.prototype)|e('html_attr') }}">
-            <button type="button" class="add_item_link" data-collection-holder-class="theme">Ajouter un thème</button>
-        </ul>
+        <fieldset>
+            <legend>Thèmes</legend>
+            <ul class="theme d-lg-block"
+                data-index="{{ form.theme|length > 0 ? form.theme|last.vars.name + 1 : 0 }}"
+                data-prototype="{{ form_widget(form.theme.vars.prototype)|e('html_attr') }}">
+                <button type="button" class="add_item_link" data-collection-holder-class="theme">Ajouter un thème</button>
+            </ul>
+        </fieldset>
     </div>
     <div class="row">
         <div class="col">
