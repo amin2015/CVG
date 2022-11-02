@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Theme;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,7 +17,12 @@ class ThemeType extends AbstractType
             ->add('name', null, [
                 'label' => 'Nom du thème'
             ])
-        ;
+            ->add('type',  ChoiceType::class, [
+                'choices' => [
+                    'Education' => 1,
+                    'Skills' => 2,
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

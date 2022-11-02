@@ -4,6 +4,9 @@ namespace App\Service;
 
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\JcTable;
+use PhpOffice\PhpWord\Style\Frame;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +21,7 @@ class PhpDoc
         $this->params = $params;
     }
 
-    public function generatePhpWord($form):Response
+    public function generatePhpWord($form): Response
     {
         /** PhpWord */
         $phpWord = new PhpWord();
@@ -29,63 +32,53 @@ class PhpDoc
             $filePath = $fileName . ".docx";
         }
         /** Header */
-        $html = '<tbody><tr valign="top">
-		<td width="71" bgcolor="#2f5496" style="background: #2f5496; border: none; padding: 0cm"><p align="left" style="orphans: 2; widows: 2; margin-bottom: 0cm">
-    <br>
+        $firstStyleTable = ['width' => '31 cm', 'unit' => 'pct', 'cellMarginBottom' => Converter::cmToTwip(0.5), 'alignment' => JcTable::CENTER, 'gridSpan' => 2];
+        $firstStyleCell = ['bgColor' => '2f5496', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '2f5496', 'gridSpan' => 2];
+        $secondStyleCell = ['bgColor' => 'FFFFFF', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '2f5496', 'borderStyle' => \PhpOffice\PhpWord\SimpleType\Border::THICK,];
+        $firstFontStyle = ['bold' => true, 'color' => 'FFFFFF', 'size' => 16, 'name' => 'calibri light'];
+        $secondFontStyle = ['bold' => true, 'color' => '2f5496', 'size' => 14, 'bold' => true, 'name' => 'calibri light'];
+        /** Table */
+        $table = $section->addTable($firstStyleTable);
+        /** Row 1 */
+        $table->addRow(1500);
+        /** Cell 1 */
+        $firstCell = $table->addCell(900, $firstStyleCell);
+        $firstText = $firstCell->addTextRun(['align' => 'center']);
+        $firstText->addText(htmlspecialchars($form['headerTitle']->getData()), $firstFontStyle);
+        /** Row 2 */
+        $table->addRow(1500);
+        /** Cell 2 */
+        $cell2 = $table->addCell(900, $firstStyleCell);
+        $innerCell = $cell2->addTable($secondStyleCell)->addRow(1000)->addCell(9000, $secondStyleCell);
+        $innerCell->addText(htmlspecialchars($form['headerSkills']->getData()), $secondFontStyle);
 
-			</p>
-			<p align="left" style="orphans: 2; widows: 2"><font size="3" style="font-size: 12pt"><font face="Times New Roman, serif">	</font></font></p>
-		</td>
-		<td width="694" bgcolor="#2f5496" style="background: #2f5496; border: none; padding: 0cm"><p align="left" style="orphans: 2; widows: 2; margin-bottom: 0cm">
-			<br>
+        /** Body */
+        $section->addTextBreak(2);
+        $fancyTableStyleName = 'Fancy Table';
+        $fancyTableStyle = ['borderSize' => 1, 'borderColor' => 'ffffff'];
+        $fancyTable1Style = ['borderSize' => 1, 'borderColor' => '2f5496'];
+        $fancyTableCell1Style = ['valign' => 'bottom', 'height' => 1];
+        $fancyTableCell2Style = ['valign' => 'top', 'height' => 1];
+        $phpWord->addTableStyle($fancyTableStyleName, $fancyTableStyle);
+        $table = $section->addTable($fancyTableStyleName);
 
-			</p>
-			<p align="center" style="orphans: 2; widows: 2; margin-left: -2.43cm; margin-bottom: 0.21cm">
-			<font face="Calibri, serif"><font color="#ffffff"><font size="4" style="font-size: 16pt">Développeur
-			ReactJS</font></font></font></p>
-			<p align="center" style="orphans: 2; widows: 2; margin-left: -2.43cm; margin-bottom: 0.21cm">
-			<font face="Calibri, serif"><font size="3" style="font-size: 12pt"><font color="#ffffff">4
-			ans d’expérience</font></font></font></p>
-			<p align="left" style="orphans: 2; widows: 2; margin-bottom: 0cm">
-<span id="Cadre1" dir="ltr" style="float: left; width: 15.91cm; border: none; padding: 0cm; background: #2f5496"></span></p><p align="center" style="orphans: 0; widows: 0; background: #ffffff">
-				<font color="#2f5496"><span lang="en-US"><b>React.js, Node.js,
-				Scrum, JavaScript, TypeScript, Jquery,  HTML, CSS</b></span></font></p>
-			
-			<p></p>
-			<p align="left" style="orphans: 2; widows: 2"><br>
-
-			</p>
-		</td>
-	</tr>
-</tbody>';
-        $doc = new \DOMDocument();
-        $doc->preserveWhiteSpace = FALSE;
-        $doc->loadHTML($html);
-        $doc->saveHTML();
-
-       // $doc->load("http://banners.willhill.com/xml/viewxml.asp?sport=FB&style=12");
-        //dd($doc->saveHtml());
-        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $doc->saveXML(),true);
-        $fontStyleName = 'oneUserDefinedStyle';
-        $phpWord->addFontStyle(
-            $fontStyleName,
-            array('name' => 'Tahoma', 'size' => 10, 'color' => 'fff', 'bold' => true, 'fgColor' => 'dsf')
-        );
-        $section->addText(
-            $form['headerTitle']->getData(),
-            $fontStyleName
-        );
+        $table->addRow(900);
+        $table->addCell(700, $fancyTableCell1Style)->addImage($this->params->get('icons_directory') . 'diploma.gif', ['height' => 25, 'width' => 30]);
+        $table->addCell(7300, $fancyTableCell1Style)->addText(htmlspecialchars($form['theme'][0]->getData()->getName()), ['color' => '2f5496', 'size' => 14, 'bold' => true, 'name' => 'calibri light']);
+        //$table->addRow()->addCell(8000, $fancyTableCell2Style)->addText('aa', [], ['borderBottomSize' => 1]);
+        $table = $section->addTable($fancyTable1Style);
+        $table->addRow(900);
+        $table->addCell(700)->addLine();
 
 
-
-        /** Create writer */
+        /** Object writer */
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
         /** Write file into path */
-        $objWriter->save( $this->params->get('uploads_directory') . $filePath);
+        $objWriter->save($this->params->get('uploads_directory') . $filePath);
         /** Response */
-        $response = new BinaryFileResponse( $this->params->get('uploads_directory') . $filePath);
+        $response = new BinaryFileResponse($this->params->get('uploads_directory') . $filePath);
         $response->headers->set('Content-Type', 'text/plain');
-        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT,  $filePath);
+        $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filePath);
         return $response;
     }
 
