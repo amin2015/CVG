@@ -27,6 +27,21 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $fileName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $logo = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $nameSociety = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $commercialInformation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $websiteSociety = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $color = null;
+
     public function __construct()
     {
         $this->theme = new ArrayCollection();
@@ -99,6 +114,66 @@ class Cv
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    public function getLogo(): ?string
+    {
+        return $this->logo;
+    }
+
+    public function setLogo(?string $logo): self
+    {
+        $this->logo = $logo;
+
+        return $this;
+    }
+
+    public function getNameSociety(): ?string
+    {
+        return $this->nameSociety;
+    }
+
+    public function setNameSociety(?string $nameSociety): self
+    {
+        $this->nameSociety = $nameSociety;
+
+        return $this;
+    }
+
+    public function getCommercialInformation(): ?string
+    {
+        return $this->commercialInformation;
+    }
+
+    public function setCommercialInformation(?string $commercialInformation): self
+    {
+        $this->commercialInformation = $commercialInformation;
+
+        return $this;
+    }
+
+    public function getWebsiteSociety(): ?string
+    {
+        return $this->websiteSociety;
+    }
+
+    public function setWebsiteSociety(?string $websiteSociety): self
+    {
+        $this->websiteSociety = $websiteSociety;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

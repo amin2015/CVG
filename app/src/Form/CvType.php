@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Cv;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +19,16 @@ class CvType extends AbstractType
             ->add('headerTitle')
             ->add('headerSkills')
             ->add('fileName')
+            ->add('logo', FileType::class)
+            ->add('color', ColorType::class)
+            ->add('nameSociety', null, [
+                'attr' => [
+                    'class' => 'select2-cv-data',
+                    'data-field'=>'nameSociety'
+                ]
+            ])
+            ->add('commercialInformation')
+            ->add('websiteSociety')
             ->add('theme', CollectionType::class, [
                 'entry_type' => ThemeType::class,
                 'entry_options' => ['label' => false],

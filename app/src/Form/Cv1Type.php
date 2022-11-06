@@ -2,28 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\SubTheme;
+use App\Entity\Cv;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SubThemeType extends AbstractType
+class Cv1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('year')
-            ->add('qualification')
-            ->add('skillsTitle')
-            ->add('skillsDescription', TextareaType::class,['attr'=>['class'=>'form-control']])
+            ->add('headerTitle')
+            ->add('headerSkills')
+            ->add('fileName')
+            ->add('logo')
+            ->add('nameSociety')
+            ->add('commercialInformation')
+            ->add('websiteSociety')
+            ->add('color')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SubTheme::class,
+            'data_class' => Cv::class,
         ]);
     }
 }

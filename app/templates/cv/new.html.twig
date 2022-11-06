@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% form_theme form.theme 'form/custom_types.html.twig' %}
+{#{% form_theme form 'form/custom_types.html.twig' %}#}
 {#{% form_theme form.theme.subTheme 'form/custom_types1.html.twig' %}#}
 {#{% form_theme form _self %}#}
 
@@ -12,12 +12,42 @@
     {{ include('cv/_form.html.twig') }}
 
     <script>
+        $('.select2-cv-data').select2({
+            minimumInputLength:1,
+            "ajax": {
+                data:function (term, page) {
+                    return { term:term, page:page };
+                },
+                dataType:"json",
+                quietMillis:100,
+                results: function (data, page) {
+                    return {results: data.results};
+                },
+                "url":function (select) {
+
+                    return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
+                }
+            },
+            id: function(object) {
+                return object.text;
+            },
+            // Allow manually entered text in drop down.
+            createSearchChoice:function(term, data) {
+                if ( $(data).filter( function() {
+                    return this.text.localeCompare(term)===0;
+                }).length===0) {
+                    return {id:term, text:term};
+                }
+            },
+        });
+
         const addFormToCollection = (e) => {
             const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
             const item = document.createElement('div');
             item.classList.add('tag-theme');
-            item.classList.add('col-sm-6');
-            item.classList.add('mb-3');
+            console.log(e.currentTarget);
+            // item.classList.add('col-sm-6');
+            // item.classList.add('mb-3');
             item.classList.add('theme' + collectionHolder.dataset.index);
             item.setAttribute('id', 'theme' + collectionHolder.dataset.index);
             const currentIndex = collectionHolder.dataset.index;
@@ -39,14 +69,14 @@
 
 
             collectionHolder.appendChild(item);
-            console.log(item);
+            // console.log(item);
 
             collectionHolder.dataset.index++;
             // add a delete link to the new form
             addTagFormDeleteLink(item);
             addSubThemeFormLink(item,currentIndex);
 
-            $('#cv_theme_0_name').select2({
+            $('.select2').select2({
                 minimumInputLength:1,
                 "ajax": {
                     data:function (term, page) {
@@ -76,9 +106,10 @@
 
         const addSubThemeFormToCollection = (e) => {
             const collectionHolder = document.querySelector('#cv_theme_0_subTheme');
-            console.log(e.currentTarget.dataset.theme)
+            let subTheme = '#cv_' + e.currentTarget.dataset.theme;
+            console.log(subTheme)
 
-            $('#cv_theme_0').innerHTML = collectionHolder
+            $(subTheme).innerHTML = collectionHolder
                 .dataset
                 .prototype
                 .replace(
@@ -86,8 +117,24 @@
                     collectionHolder.dataset.index
                 );
 
-            $('#cv_theme_0').append(collectionHolder.dataset.prototype);
+            $(subTheme + " fieldset.mb-3").append('<div class="subtheme">' + collectionHolder.dataset.prototype + '</div>');
             collectionHolder.dataset.index++;
+            tinymce.remove('textarea');
+            tinymce.init({
+                selector: 'textarea',
+                plugins: [
+                    'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+                    'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+                    'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+                ],
+                toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                    'bullist numlist checklist outdent indent | removeformat | code table help',
+                init_instance_callback : function(editor) {
+                    document.querySelectorAll('[role="alert"]').forEach(function (el){
+                        el.style.display = 'none';
+                    });
+                }
+            })
         };
 
         const addTagFormDeleteLink = (item) => {
@@ -107,7 +154,7 @@
             const addFormButton = document.createElement('button');
             addFormButton.classList.add('subtheme');
             addFormButton.innerText = 'add subtheme';
-            addFormButton.setAttribute('data-theme', 'theme' + index);
+            addFormButton.setAttribute('data-theme', 'theme_' + index);
             item.appendChild(addFormButton);
 
             item.append(addFormButton);

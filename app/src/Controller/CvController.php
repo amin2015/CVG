@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Cv;
 use App\Form\CvType;
+use App\Service\CvService;
 use App\Service\SkillService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\PhpDoc;
@@ -45,11 +46,22 @@ class CvController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
     #[Route('/ajax-skill-choice', name: 'ajax_skill_choice', methods: ['GET'])]
     public function ajaxSkillChoice(Request $request, SkillService $skillService)
     {
         $term = $request->query->get('term');
         $skills = $skillService->getSkills($term);
+
+        return $this->json(['results'=>$skills]);
+    }
+
+    #[Route('/ajax-cv-choice', name: 'ajax_skill_choice', methods: ['GET'])]
+    public function ajaxCvChoice(Request $request, CvService $cvService)
+    {
+        $term = $request->query->get('term');
+        $field = $request->query->get('field');
+        $skills = $cvService->getData($term, $field);
 
         return $this->json(['results'=>$skills]);
     }

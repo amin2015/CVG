@@ -39,6 +39,17 @@ class CvRepository extends ServiceEntityRepository
         }
     }
 
+    public function getData(?string $term, string $field)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.' . $field)
+            ->where('c.'.$field.' like :term')
+            ->setParameter('term', $term.'%')
+            ->distinct()
+            ->getQuery()
+            ->execute();
+    }
+
 //    /**
 //     * @return Cv[] Returns an array of Cv objects
 //     */
