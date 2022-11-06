@@ -24,7 +24,6 @@
                     return {results: data.results};
                 },
                 "url":function (select) {
-
                     return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
                 }
             },
@@ -76,7 +75,11 @@
             addTagFormDeleteLink(item);
             addSubThemeFormLink(item,currentIndex);
 
-            $('.select2').select2({
+            activeSelect2();
+        };
+
+        const activeSelect2 = () => {
+            $('.select2-cv-data').select2({
                 minimumInputLength:1,
                 "ajax": {
                     data:function (term, page) {
@@ -87,7 +90,9 @@
                     results: function (data, page) {
                         return {results: data.results};
                     },
-                    "url": '/cv/ajax-skill-choice'
+                    "url":function (select) {
+                        return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
+                    }
                 },
                 id: function(object) {
                     return object.text;
@@ -101,8 +106,7 @@
                     }
                 },
             });
-
-        };
+        }
 
         const addSubThemeFormToCollection = (e) => {
             const collectionHolder = document.querySelector('#cv_theme_0_subTheme');
@@ -135,6 +139,8 @@
                     });
                 }
             })
+
+            activeSelect2();
         };
 
         const addTagFormDeleteLink = (item) => {

@@ -15,7 +15,12 @@ class SubThemeType extends AbstractType
         $builder
             ->add('year')
             ->add('qualification')
-            ->add('skillsTitle')
+            ->add('skillsTitle', null, [
+                'attr' => [
+                    'class' => 'form-control select2-cv-data',
+                    'data-field'=>'websiteSociety'
+                ]
+            ])
             ->add('skillsDescription', TextareaType::class,['attr'=>['class'=>'form-control']])
         ;
     }

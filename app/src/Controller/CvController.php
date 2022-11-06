@@ -47,7 +47,7 @@ class CvController extends AbstractController
         ]);
     }
 
-    #[Route('/ajax-skill-choice', name: 'ajax_skill_choice', methods: ['GET'])]
+    #[Route('/ajax-theme-choice', name: 'ajax_skill_choice', methods: ['GET'])]
     public function ajaxSkillChoice(Request $request, SkillService $skillService)
     {
         $term = $request->query->get('term');

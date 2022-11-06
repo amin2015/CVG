@@ -27,8 +27,18 @@ class CvType extends AbstractType
                     'data-field'=>'nameSociety'
                 ]
             ])
-            ->add('commercialInformation')
-            ->add('websiteSociety')
+            ->add('commercialInformation', null, [
+                'attr' => [
+                    'class' => 'form-control select2-cv-data',
+                    'data-field'=>'commercialInformation'
+                ]
+            ])
+            ->add('websiteSociety', null, [
+                'attr' => [
+                    'class' => 'form-control select2-cv-data',
+                    'data-field'=>'websiteSociety'
+                ]
+            ])
             ->add('theme', CollectionType::class, [
                 'entry_type' => ThemeType::class,
                 'entry_options' => ['label' => false],
