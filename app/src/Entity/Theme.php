@@ -75,14 +75,26 @@ class Theme
         return $this;
     }
 
-    public function addSubTheme(SubTheme $subTheme): void
+    public function addSubTheme(SubTheme $subTheme): self
     {
-        $this->subTheme->add($subTheme);
+        if (!$this->subTheme->contains($subTheme)) {
+            $this->subTheme->add($subTheme);
+            $subTheme->setTheme($this);
+        }
+
+        return $this;
     }
 
-    public function removeSubTheme(SubTheme $subTheme): void
+    public function removeSubTheme(SubTheme $subTheme): self
     {
-        // ...
+        if ($this->subTheme->removeElement($subTheme)) {
+            // set the owning side to null (unless already changed)
+            if ($subTheme->getTheme() === $this) {
+                $subTheme->setTheme(null);
+            }
+        }
+
+        return $this;
     }
 
     /**
@@ -93,13 +105,13 @@ class Theme
         return $this->subTheme;
     }
 
-    /**
-     * @param ArrayCollection|Collection $subTheme
-     */
-    public function setSubTheme(ArrayCollection|Collection $subTheme): void
-    {
-        $this->subTheme = $subTheme;
-    }
+//    /**
+//     * @param ArrayCollection|Collection $subTheme
+//     */
+//    public function setSubTheme(ArrayCollection|Collection $subTheme): void
+//    {
+//        $this->subTheme = $subTheme;
+//    }
 
 
 }

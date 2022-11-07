@@ -15,7 +15,7 @@ class ThemeType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => 'Nom du thème',
-                'attr' => ['class' => 'select2'],
+                'attr' => ['class' => 'select2-cv-data'],
             ])
             ->add('subTheme', CollectionType::class, [
                 'entry_type' => SubThemeType::class,

@@ -41,7 +41,8 @@
         });
 
         const addFormToCollection = (e) => {
-            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+            const currentcollectionHolderName = '.' + e.currentTarget.dataset.collectionHolderClass;
+            const collectionHolder = document.querySelector(currentcollectionHolderName);
             const item = document.createElement('div');
             item.classList.add('tag-theme');
             console.log(e.currentTarget);
@@ -58,16 +59,15 @@
                     collectionHolder.dataset.index
                 );
 
-            // const para = document.createElement("button");
-            // para.innerText = "This is a paragraph";
-            // item.appendChild(para);
-
-            const addFormButton = document.createElement('button');
-            addFormButton.classList.add('subtheme');
-            addFormButton.innerText = 'add subtheme1';
-
-
             collectionHolder.appendChild(item);
+
+            const collectionHolderFieldset = document.querySelector(currentcollectionHolderName +
+                " #cv_theme_" +
+                collectionHolder.dataset.index + " > fieldset");
+
+            const subthemeholder = document.createElement('div');
+            subthemeholder.classList.add('subthemeholder');
+            collectionHolderFieldset.appendChild(subthemeholder);
             // console.log(item);
 
             collectionHolder.dataset.index++;
@@ -75,53 +75,68 @@
             addTagFormDeleteLink(item);
             addSubThemeFormLink(item,currentIndex);
 
-            activeSelect2();
+            // activeSelect2();
         };
 
-        const activeSelect2 = () => {
-            $('.select2-cv-data').select2({
-                minimumInputLength:1,
-                "ajax": {
-                    data:function (term, page) {
-                        return { term:term, page:page };
-                    },
-                    dataType:"json",
-                    quietMillis:100,
-                    results: function (data, page) {
-                        return {results: data.results};
-                    },
-                    "url":function (select) {
-                        return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
-                    }
-                },
-                id: function(object) {
-                    return object.text;
-                },
-                // Allow manually entered text in drop down.
-                createSearchChoice:function(term, data) {
-                    if ( $(data).filter( function() {
-                        return this.text.localeCompare(term)===0;
-                    }).length===0) {
-                        return {id:term, text:term};
-                    }
-                },
-            });
-        }
+        // const activeSelect2 = () => {
+        //     $('.select2-cv-data').select2({
+        //         minimumInputLength:1,
+        //         "ajax": {
+        //             data:function (term, page) {
+        //                 return { term:term, page:page };
+        //             },
+        //             dataType:"json",
+        //             quietMillis:100,
+        //             results: function (data, page) {
+        //                 return {results: data.results};
+        //             },
+        //             "url":function (select) {
+        //                 return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
+        //             }
+        //         },
+        //         id: function(object) {
+        //             return object.text;
+        //         },
+        //         // Allow manually entered text in drop down.
+        //         createSearchChoice:function(term, data) {
+        //             if ( $(data).filter( function() {
+        //                 return this.text.localeCompare(term)===0;
+        //             }).length===0) {
+        //                 return {id:term, text:term};
+        //             }
+        //         },
+        //     });
+        // }
 
         const addSubThemeFormToCollection = (e) => {
-            const collectionHolder = document.querySelector('#cv_theme_0_subTheme');
+            const collectionHolder = document.querySelector('#cv_theme_'+e.currentTarget.dataset.themeindex+'_subTheme');
             let subTheme = '#cv_' + e.currentTarget.dataset.theme;
-            console.log(subTheme)
+            const subthemeCollectionHolder = $(subTheme + " div.subthemeholder  fieldset").length;
 
-            $(subTheme).innerHTML = collectionHolder
+
+            const nameSubtheme = "cv_theme_"+e.currentTarget.dataset.themeindex+"_subTheme_"+e.currentTarget.dataset.themeindex;
+            const regexname = new RegExp(nameSubtheme, 'g');
+            const newNameSubthemeHtml = "cv_theme_"+e.currentTarget.dataset.themeindex+"_subTheme_"+subthemeCollectionHolder;
+
+            const nameSubthemeInputName = "cv\\[theme]\\["+e.currentTarget.dataset.themeindex+"]\\[subTheme]\\["+e.currentTarget.dataset.themeindex+"]";
+            const regexInput = new RegExp(nameSubthemeInputName, 'g');
+            const newNameSubthemeForm = "cv[theme]["+e.currentTarget.dataset.themeindex+"][subTheme]["+subthemeCollectionHolder+"]";
+
+            subthemeForm = collectionHolder
                 .dataset
                 .prototype
                 .replace(
-                    /__name__/g,
-                    collectionHolder.dataset.index
+                    regexInput,
+                    newNameSubthemeForm
                 );
 
-            $(subTheme + " fieldset.mb-3").append('<div class="subtheme">' + collectionHolder.dataset.prototype + '</div>');
+            subthemeFormHtml = subthemeForm
+                .replace(
+                    regexname,
+                    newNameSubthemeHtml
+                );
+
+            $(subTheme + " > fieldset.mb-3 .subthemeholder").append(subthemeFormHtml);
             collectionHolder.dataset.index++;
             tinymce.remove('textarea');
             tinymce.init({
@@ -140,7 +155,7 @@
                 }
             })
 
-            activeSelect2();
+            // activeSelect2();
         };
 
         const addTagFormDeleteLink = (item) => {
@@ -161,6 +176,7 @@
             addFormButton.classList.add('subtheme');
             addFormButton.innerText = 'add subtheme';
             addFormButton.setAttribute('data-theme', 'theme_' + index);
+            addFormButton.setAttribute('data-themeindex',index);
             item.appendChild(addFormButton);
 
             item.append(addFormButton);

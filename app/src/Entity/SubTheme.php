@@ -29,6 +29,7 @@ class SubTheme
     #[ORM\ManyToOne(inversedBy: 'subTheme')]
     private ?Theme $theme = null;
 
+
     public function __toString(): string
     {
         return $this->getSkillsTitle();
