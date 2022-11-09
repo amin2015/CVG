@@ -39,6 +39,17 @@ class SubThemeRepository extends ServiceEntityRepository
         }
     }
 
+    public function getDatas(?string $term, string $field)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s.' . $field)
+            ->where('t.name like :name')
+            ->setParameter('name', $term.'%')
+            ->distinct()
+            ->getQuery()
+            ->execute();
+    }
+
 //    /**
 //     * @return SubTheme[] Returns an array of SubTheme objects
 //     */

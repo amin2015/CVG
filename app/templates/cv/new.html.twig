@@ -12,33 +12,39 @@
     {{ include('cv/_form.html.twig') }}
 
     <script>
-        $('.select2-cv-data').select2({
-            minimumInputLength:1,
-            "ajax": {
-                data:function (term, page) {
-                    return { term:term, page:page };
+
+        const select2Generate = (selector) => {
+            $(selector).select2({
+                minimumInputLength:1,
+                "ajax": {
+                    data:function (term, page) {
+                        return { term:term, page:page };
+                    },
+                    dataType:"json",
+                    quietMillis:100,
+                    results: function (data, page) {
+                        return {results: data.results};
+                    },
+                    "url":function (select) {
+                        return $(this).attr('data-field');
+                    }
                 },
-                dataType:"json",
-                quietMillis:100,
-                results: function (data, page) {
-                    return {results: data.results};
+                id: function(object) {
+                    return object.text;
                 },
-                "url":function (select) {
-                    return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
-                }
-            },
-            id: function(object) {
-                return object.text;
-            },
-            // Allow manually entered text in drop down.
-            createSearchChoice:function(term, data) {
-                if ( $(data).filter( function() {
-                    return this.text.localeCompare(term)===0;
-                }).length===0) {
-                    return {id:term, text:term};
-                }
-            },
-        });
+                // Allow manually entered text in drop down.
+                createSearchChoice:function(term, data) {
+                    if ( $(data).filter( function() {
+                        return this.text.localeCompare(term)===0;
+                    }).length===0) {
+                        return {id:term, text:term};
+                    }
+                },
+            });
+        }
+
+        select2Generate(".select2-cv-data");
+
 
         const addFormToCollection = (e) => {
             const currentcollectionHolderName = '.' + e.currentTarget.dataset.collectionHolderClass;
@@ -75,38 +81,8 @@
             addTagFormDeleteLink(item);
             addSubThemeFormLink(item,currentIndex);
 
-            // activeSelect2();
+            select2Generate(".select2-cv-data");
         };
-
-        // const activeSelect2 = () => {
-        //     $('.select2-cv-data').select2({
-        //         minimumInputLength:1,
-        //         "ajax": {
-        //             data:function (term, page) {
-        //                 return { term:term, page:page };
-        //             },
-        //             dataType:"json",
-        //             quietMillis:100,
-        //             results: function (data, page) {
-        //                 return {results: data.results};
-        //             },
-        //             "url":function (select) {
-        //                 return '/cv/ajax-cv-choice?field=' + $(this).attr('data-field');
-        //             }
-        //         },
-        //         id: function(object) {
-        //             return object.text;
-        //         },
-        //         // Allow manually entered text in drop down.
-        //         createSearchChoice:function(term, data) {
-        //             if ( $(data).filter( function() {
-        //                 return this.text.localeCompare(term)===0;
-        //             }).length===0) {
-        //                 return {id:term, text:term};
-        //             }
-        //         },
-        //     });
-        // }
 
         const addSubThemeFormToCollection = (e) => {
             const collectionHolder = document.querySelector('#cv_theme_'+e.currentTarget.dataset.themeindex+'_subTheme');
@@ -155,7 +131,7 @@
                 }
             })
 
-            // activeSelect2();
+            select2Generate(".select2-cv-data");
         };
 
         const addTagFormDeleteLink = (item) => {

@@ -22,17 +22,32 @@
     </div>
     <div class="mb-10 row">
         <div class="form-outline col-sm-8 mb-3">
-            {{ form_row(form.nameSociety, {"label": "nom de la société"}) }}
+            {{
+                form_row(form.nameSociety, {
+                    "label": "nom de la société",
+                    'attr': {'data-field':path('ajax_skill_choice',{'field':'nameSociety'})}
+                })
+            }}
         </div>
     </div>
     <div class="mb-10 row">
         <div class="form-outline col-sm-8 mb-3">
-            {{ form_row(form.commercialInformation, {"label": "information du commercial"}) }}
+            {{
+                form_row(form.commercialInformation, {
+                "label": "information du commercial",
+                'attr': {'data-field':path('ajax_skill_choice',{'field':'commercialInformation'})}
+                })
+            }}
         </div>
     </div>
     <div class="mb-10 row">
         <div class="form-outline col-sm-8 mb-3">
-            {{ form_row(form.websiteSociety, {"label": "site internet"}) }}
+            {{
+                form_row(form.websiteSociety, {
+                    "label": "site internet",
+                    'attr': {'data-field':path('ajax_skill_choice',{'field':'websiteSociety'})}
+                })
+            }}
         </div>
     </div>
     <div class="form-group row">

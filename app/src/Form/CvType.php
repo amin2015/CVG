@@ -24,7 +24,7 @@ class CvType extends AbstractType
             ->add('nameSociety', null, [
                 'attr' => [
                     'class' => 'select2-cv-data',
-                    'data-field'=>'nameSociety'
+//                    'data-field'=>'nameSociety'
                 ]
             ])
             ->add('commercialInformation', null, [

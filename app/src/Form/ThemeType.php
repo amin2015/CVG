@@ -7,15 +7,22 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ThemeType extends AbstractType
 {
+    private UrlGeneratorInterface $route;
+    public function __construct(UrlGeneratorInterface $route)
+    {
+        $this->route = $route;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', null, [
                 'label' => 'Nom du thème',
-                'attr' => ['class' => 'select2-cv-data'],
+                'attr' => ['class' => 'select2-cv-data', 'data-field'=> $this->route->generate('ajax_theme_choice',['field'=>'name'] )],
             ])
             ->add('subTheme', CollectionType::class, [
                 'entry_type' => SubThemeType::class,

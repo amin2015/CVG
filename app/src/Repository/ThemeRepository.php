@@ -39,11 +39,11 @@ class ThemeRepository extends ServiceEntityRepository
         }
     }
 
-    public function getSkills(?string $term)
+    public function getSkills(?string $term, string $field)
     {
-        return $this->createQueryBuilder('c')
-            ->select('c.name')
-            ->where('c.name like :name')
+        return $this->createQueryBuilder('t')
+            ->select('t.' . $field)
+            ->where('t.name like :name')
             ->setParameter('name', $term.'%')
             ->distinct()
             ->getQuery()

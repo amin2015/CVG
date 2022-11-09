@@ -6,6 +6,7 @@ use App\Entity\Cv;
 use App\Form\CvType;
 use App\Service\CvService;
 use App\Service\SkillService;
+use App\Service\SubthemeService;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\PhpDoc;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -47,11 +48,13 @@ class CvController extends AbstractController
         ]);
     }
 
-    #[Route('/ajax-theme-choice', name: 'ajax_skill_choice', methods: ['GET'])]
+    #[Route('/ajax-theme-choice', name: 'ajax_theme_choice', methods: ['GET'])]
     public function ajaxSkillChoice(Request $request, SkillService $skillService)
     {
         $term = $request->query->get('term');
-        $skills = $skillService->getSkills($term);
+        $field = $request->query->get('field');
+
+        $skills = $skillService->getSkills($term, $field);
 
         return $this->json(['results'=>$skills]);
     }
@@ -64,5 +67,16 @@ class CvController extends AbstractController
         $skills = $cvService->getData($term, $field);
 
         return $this->json(['results'=>$skills]);
+    }
+
+    #[Route('/ajax-subtheme-choice', name: 'ajax_subtheme_choice', methods: ['GET'])]
+    public function ajaxSubthemeChoice(Request $request, SubthemeService $skillService)
+    {
+        $term = $request->query->get('term');
+        $field = $request->query->get('field');
+
+        $datas = $skillService->getDatas($term, $field);
+
+        return $this->json(['results'=>$datas]);
     }
 }
