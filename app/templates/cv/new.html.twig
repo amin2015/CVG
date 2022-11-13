@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-{#{% form_theme form 'form/custom_types.html.twig' %}#}
+{% form_theme form.theme 'form/custom_types.html.twig' %}
 {#{% form_theme form.theme.subTheme 'form/custom_types1.html.twig' %}#}
-{#{% form_theme form _self %}#}
+{#{% form_theme form.theme _self %}#}
 
 {% block title %}New Header{% endblock %}
 
@@ -71,14 +71,14 @@
                 " #cv_theme_" +
                 collectionHolder.dataset.index + " > fieldset");
 
-            const subthemeholder = document.createElement('div');
-            subthemeholder.classList.add('subthemeholder');
-            collectionHolderFieldset.appendChild(subthemeholder);
+            // const subthemeholder = document.createElement('div');
+            // subthemeholder.classList.add('subthemeholder');
+            // collectionHolderFieldset.appendChild(subthemeholder);
             // console.log(item);
 
             collectionHolder.dataset.index++;
             // add a delete link to the new form
-            addTagFormDeleteLink(item);
+            // addTagFormDeleteLink(item);
             addSubThemeFormLink(item,currentIndex);
 
             select2Generate(".select2-cv-data");
@@ -150,6 +150,8 @@
         const addSubThemeFormLink = (item, index) => {
             const addFormButton = document.createElement('button');
             addFormButton.classList.add('subtheme');
+            addFormButton.classList.add('btn');
+            addFormButton.classList.add('btn-secondary');
             addFormButton.innerText = 'add subtheme';
             addFormButton.setAttribute('data-theme', 'theme_' + index);
             addFormButton.setAttribute('data-themeindex',index);
