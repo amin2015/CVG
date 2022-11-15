@@ -32,6 +32,7 @@ class FileUploader
             //Move File
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
+            dump($e->getMessage());
             throw new Exception('Upload file has a problem');
         }
 

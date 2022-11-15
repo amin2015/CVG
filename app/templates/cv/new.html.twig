@@ -7,12 +7,30 @@
 
 {% block body %}
     <h1>Génération de CV</h1>
-{#    {{ dump(form.theme) }}#}
 
     {{ include('cv/_form.html.twig') }}
 
     <script>
 
+        const initTinymce = () =>{
+            tinymce.remove('textarea');
+            tinymce.init({
+                selector: 'textarea',
+                plugins: [
+                    'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+                    'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+                    'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+                ],
+                toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                    'bullist numlist checklist outdent indent | removeformat | code table help',
+                init_instance_callback : function(editor) {
+                    document.querySelectorAll('[role="alert"]').forEach(function (el){
+                        el.style.display = 'none';
+                    });
+                }
+            })
+        }
+        initTinymce();
         const select2Generate = (selector) => {
             $(selector).select2({
                 minimumInputLength:1,
@@ -45,13 +63,13 @@
 
         select2Generate(".select2-cv-data");
 
-
         const addFormToCollection = (e) => {
             const currentcollectionHolderName = '.' + e.currentTarget.dataset.collectionHolderClass;
             const collectionHolder = document.querySelector(currentcollectionHolderName);
+
             const item = document.createElement('div');
             item.classList.add('tag-theme');
-            console.log(e.currentTarget);
+            // console.log(e.currentTarget);
             // item.classList.add('col-sm-6');
             // item.classList.add('mb-3');
             item.classList.add('theme' + collectionHolder.dataset.index);
@@ -89,7 +107,6 @@
             let subTheme = '#cv_' + e.currentTarget.dataset.theme;
             const subthemeCollectionHolder = $(subTheme + " div.subthemeholder  fieldset").length;
 
-
             const nameSubtheme = "cv_theme_"+e.currentTarget.dataset.themeindex+"_subTheme_"+e.currentTarget.dataset.themeindex;
             const regexname = new RegExp(nameSubtheme, 'g');
             const newNameSubthemeHtml = "cv_theme_"+e.currentTarget.dataset.themeindex+"_subTheme_"+subthemeCollectionHolder;
@@ -114,22 +131,6 @@
 
             $(subTheme + " > fieldset.mb-3 .subthemeholder").append(subthemeFormHtml);
             collectionHolder.dataset.index++;
-            tinymce.remove('textarea');
-            tinymce.init({
-                selector: 'textarea',
-                plugins: [
-                    'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-                    'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-                    'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
-                ],
-                toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
-                    'bullist numlist checklist outdent indent | removeformat | code table help',
-                init_instance_callback : function(editor) {
-                    document.querySelectorAll('[role="alert"]').forEach(function (el){
-                        el.style.display = 'none';
-                    });
-                }
-            })
 
             select2Generate(".select2-cv-data");
         };
@@ -180,15 +181,31 @@
         document
             .querySelectorAll('.tag-theme')
             .forEach((tag) => {
-                console.log(tag);
                 addTagFormDeleteLink(tag)
             })
 
+        if(document.querySelectorAll('.prototype').length > 0) {
+            document
+                .querySelectorAll('.prototype')
+                .forEach(btn => {
+                    dd = btn.dataset
+                        .prototype
+                        .replace(
+                            /__name__/g,
+                            0
+                        );
+                    btn.dataset.prototype = dd;
+                });
 
-
-
-
-
+            document
+                .querySelectorAll('button.subtheme')
+                .forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        addSubThemeFormToCollection(e)
+                    })
+                });
+        }
     </script>
 {% endblock %}
 

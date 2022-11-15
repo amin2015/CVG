@@ -53,6 +53,33 @@
     <div class="form-group row">
         <fieldset>
             <legend>Thèmes</legend>
+            <ul class="tags">
+                {% for tag in form.theme %}
+{#                    {% form_theme tag 'form/custom_types1.html.twig' %}#}
+                    <li>
+                        <div class="tag-theme theme0" id="theme0">
+                            <div id="cv_theme_{{ loop.index0 }}">
+                                {{ form_row(tag.name) }}
+                                {{ form_row(tag.type) }}
+                                <fieldset class="mb-3">
+                                        <div id="cv_theme_0_subTheme"
+                                             data-prototype="{{ form_widget(tag.subTheme.vars.prototype)|e('html_attr') }}" class="prototype">
+                                        </div>
+                                    <div class="subthemeholder">
+                                        {% for tag2 in tag.subTheme %}
+                                            {{ form_row(tag2) }}
+                                        {% endfor %}
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                            <button class="subtheme" data-theme="theme_0" data-themeindex="0">add subtheme</button>
+                        </div>
+
+                    </li>
+                {% endfor %}
+            </ul>
+            {% dump form.theme|length %}
             <ul class="theme d-lg-block"
                 data-index="{{ form.theme|length > 0 ? form.theme|last.vars.name + 1 : 0 }}"
                 data-prototype="{{ form_widget(form.theme.vars.prototype)|e('html_attr') }}">

@@ -6,10 +6,18 @@ use App\Repository\ThemeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
 class Theme
 {
+    public const EXPERIENCE_LABEL = "experience";
+    public const COMPETENCE_LABEL = "compétence";
+    public const FORMATION_LABEL = "formation";
+    public const EXPERIENCE_ID = 1;
+    public const COMPETENCE_ID = 2;
+    public const FORMATION_ID = 3;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -19,12 +27,15 @@ class Theme
     #[ORM\JoinColumn(nullable: false)]
     private ?Cv $cv = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
+    #[Assert\Valid]
     #[ORM\OneToMany(mappedBy: 'theme', targetEntity: SubTheme::class, cascade: ['persist'])]
     private Collection $subTheme;
 

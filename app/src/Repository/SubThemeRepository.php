@@ -43,7 +43,7 @@ class SubThemeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->select('s.' . $field)
-            ->where('t.name like :name')
+            ->where('s.skillsTitle like :name')
             ->setParameter('name', $term.'%')
             ->distinct()
             ->getQuery()

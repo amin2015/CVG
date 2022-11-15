@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\SubThemeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\ThemeType;
 
 #[ORM\Entity(repositoryClass: SubThemeRepository::class)]
 class SubTheme
@@ -14,9 +16,11 @@ class SubTheme
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ThemeType]
     #[ORM\Column(nullable: true)]
     private ?int $year = null;
 
+    #[ThemeType]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $qualification = null;
 

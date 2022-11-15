@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Cv;
 use App\Form\Cv1Type;
 use App\Repository\CvRepository;
+use App\Service\CvGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,11 +42,12 @@ class CvController2Controller extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_cv_controller2_show', methods: ['GET'])]
-    public function show(Cv $cv): Response
+    public function show(Cv $cv, CvGenerator $cvGenerator): Response
     {
-        return $this->render('cv_controller2/show.html.twig', [
-            'cv' => $cv,
-        ]);
+        $cvGenerator->generate($cv);
+//        return $this->render('cv_controller2/show.html.twig', [
+//            'cv' => $cv,
+//        ]);
     }
 
     #[Route('/{id}/edit', name: 'app_cv_controller2_edit', methods: ['GET', 'POST'])]

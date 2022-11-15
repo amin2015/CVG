@@ -7,6 +7,7 @@ use App\Form\Cv1Type;
 use App\Form\CvType;
 use App\Repository\CvRepository;
 use App\Service\CvService;
+use App\Service\FileUploader;
 use App\Service\SkillService;
 use App\Service\SubthemeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,17 +31,22 @@ class CvController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cv_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $em, PhpDoc $phpDoc): Response
+    public function new(Request $request, EntityManagerInterface $em, PhpDoc $phpDoc, FileUploader $fileUploader): Response
     {
         $cv = new Cv();
         $form = $this->createForm(CvType::class, $cv);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            if($form->get('save')->isClicked()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('save')->isClicked()) {
                 $em->persist($cv);
                 $em->flush();
+
+                if ($form['logo']->getData()) {
+                    $fileName = $fileUploader->upload($form['logo']->getData());
+                }
+
                 return $this->redirectToRoute('app_cv');
-            }else{
+            } else {
                 return $phpDoc->generatePhpWord($form);
             }
         }
@@ -82,11 +88,10 @@ class CvController extends AbstractController
     #[Route('/ajax-cv-choice', name: 'ajax_skill_choice', methods: ['GET'])]
     public function ajaxCvChoice(Request $request, CvService $cvService)
     {
-        $term = $request->query->get('term');
         $field = $request->query->get('field');
-        $skills = $cvService->getData($term, $field);
+        $skills = $cvService->getData($field);
 
-        return $this->json(['results'=>$skills]);
+        return $this->json($skills);
     }
 
     #[Route('/ajax-subtheme-choice', name: 'ajax_subtheme_choice', methods: ['GET'])]

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Theme;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,14 @@ class ThemeType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => 'Nom du thème',
-                'attr' => ['class' => 'select2-cv-data', 'data-field'=> $this->route->generate('ajax_theme_choice',['field'=>'name'] )],
+//                'attr' => ['class' => 'select2-cv-data', 'data-field'=> $this->route->generate('ajax_theme_choice',['field'=>'name'] )],
+            ])
+            ->add('type', ChoiceType::class, [
+                'choices'  => [
+                    Theme::EXPERIENCE_LABEL => Theme::EXPERIENCE_ID,
+                    Theme::COMPETENCE_LABEL => Theme::COMPETENCE_ID,
+                    Theme::FORMATION_LABEL => Theme::FORMATION_ID,
+                ],
             ])
             ->add('subTheme', CollectionType::class, [
                 'entry_type' => SubThemeType::class,

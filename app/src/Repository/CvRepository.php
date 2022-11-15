@@ -39,12 +39,10 @@ class CvRepository extends ServiceEntityRepository
         }
     }
 
-    public function getData(?string $term, string $field)
+    public function getData(string $field)
     {
         return $this->createQueryBuilder('c')
             ->select('c.' . $field)
-            ->where('c.'.$field.' like :term')
-            ->setParameter('term', $term.'%')
             ->distinct()
             ->getQuery()
             ->execute();

@@ -1,4 +1,5 @@
 {% block collection_row %}
+
     {%- if compound is defined and compound -%}
         {%- set element = 'fieldset' -%}
     {%- endif -%}
@@ -17,5 +18,6 @@
     {%- endif -%}
     {{- form_help(form) -}}
     {{- form_errors(form) -}}
+
     </{{ element|default('div') }}>
 {% endblock %}

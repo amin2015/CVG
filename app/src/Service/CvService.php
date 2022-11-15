@@ -17,12 +17,12 @@ class CvService
         $this->cvRepository = $cvRepository;
     }
 
-    public function getData(string $term, string $field): array
+    public function getData(string $field): array
     {
         $res= [];
-        $datas = $this->cvRepository->getData($term, $field);
+        $datas = $this->cvRepository->getData($field);
         foreach ($datas as $data) {
-            $res[] = ['id'=>$data[$field], 'text'=>$data[$field]];
+            $res[] = $data[$field];
         }
 
         return $res;
