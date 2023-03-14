@@ -15,16 +15,50 @@ class CvType extends AbstractType
     {
         $builder
             ->add('headerTitle')
+            ->add('experienceYear')
             ->add('headerSkills')
             ->add('fileName')
-            ->add('theme', CollectionType::class, [
-                'entry_type' => ThemeType::class,
+            ->add('trainning', CollectionType::class, [
+                'entry_type' => TrainningType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'by_reference' => false,
                 'allow_delete' => true,
                 'attr' => [
-                    'class' => 'col-sm-3 mb-3'
+                    'class' => 'col-4'
+                ],
+                'label' => false
+            ])
+            ->add('certification', CollectionType::class, [
+                'entry_type' => CertificationType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'attr' => [
+                    'class' => 'col-4'
+                ],
+                'label' => false
+            ])
+            ->add('skills', CollectionType::class, [
+                'entry_type' => SkillsType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'attr' => [
+                    'class' => 'col-4'
+                ],
+                'label' => false
+            ])
+            ->add('experience', CollectionType::class, [
+                'entry_type' => ExperienceType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
+                'allow_delete' => true,
+                'attr' => [
+                    'class' => 'col-4'
                 ],
                 'label' => false
             ])

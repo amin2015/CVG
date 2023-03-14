@@ -8,13 +8,16 @@
     {{ include('cv/_form.html.twig') }}
 
     <script>
-        const addFormToCollection = (e) => {
+        // Trainning
+        const addTrainningToCollection = (e) => {
+            console.log(e);
             const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
 
             const item = document.createElement('div');
-            item.classList.add('tag-theme');
+            item.classList.add('tag-trainning');
             item.classList.add('col-sm-6');
-            item.classList.add('mb-3');
+            item.classList.add('mt-3');
+            item.classList.add('form-control');
 
             item.innerHTML = collectionHolder
                 .dataset
@@ -25,16 +28,16 @@
                 );
 
             collectionHolder.appendChild(item);
-            console.log(item);
 
             collectionHolder.dataset.index++;
             // add a delete link to the new form
-            addTagFormDeleteLink(item);
+            addTagTrainningDeleteLink(item);
         };
 
-        const addTagFormDeleteLink = (item) => {
+        const addTagTrainningDeleteLink = (item) => {
             const removeFormButton = document.createElement('button');
-            removeFormButton.innerText = 'Delete this tag';
+            removeFormButton.classList.add('btn-danger');
+            removeFormButton.innerText = 'X';
 
             item.append(removeFormButton);
 
@@ -46,16 +49,168 @@
         }
 
         document
-            .querySelectorAll('.add_item_link')
+            .querySelectorAll('.add_trainning_link')
             .forEach(btn => {
-                btn.addEventListener("click", addFormToCollection)
+                btn.addEventListener("click", addTrainningToCollection)
             });
 
         document
-            .querySelectorAll('.tag-theme')
+            .querySelectorAll('.tag-trainning')
             .forEach((tag) => {
-                console.log(tag);
-                addTagFormDeleteLink(tag)
+                addTagTrainningDeleteLink(tag)
+            })
+
+        // Certification
+        const addCertificationToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('div');
+            item.classList.add('tag-certification');
+            item.classList.add('col-sm-6');
+            item.classList.add('mt-3');
+            item.classList.add('form-control');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+            // add a delete link to the new form
+            addTagCertificationDeleteLink(item);
+        };
+
+        const addTagCertificationDeleteLink = (item) => {
+            const removeFormButton = document.createElement('button');
+            removeFormButton.classList.add('btn-danger');
+            removeFormButton.innerText = 'X';
+
+            item.append(removeFormButton);
+
+            removeFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // remove the li for the tag form
+                item.remove();
+            });
+        }
+
+        document
+            .querySelectorAll('.add_certification_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addCertificationToCollection)
+            });
+
+        document
+            .querySelectorAll('.tag-Certification')
+            .forEach((tag) => {
+                addTagCertificationDeleteLink(tag)
+            })
+
+        // Skills
+        const addSkillsToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('div');
+            item.classList.add('tag-skills');
+            item.classList.add('col-sm-6');
+            item.classList.add('mt-3');
+            item.classList.add('form-control');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+            // add a delete link to the new form
+            addTagSkillsDeleteLink(item);
+        };
+
+        const addTagSkillsDeleteLink = (item) => {
+            const removeFormButton = document.createElement('button');
+            removeFormButton.classList.add('btn-danger');
+            removeFormButton.innerText = 'X';
+
+            item.append(removeFormButton);
+
+            removeFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // remove the li for the tag form
+                item.remove();
+            });
+        }
+
+        document
+            .querySelectorAll('.add_skills_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addSkillsToCollection)
+            });
+
+        document
+            .querySelectorAll('.tag-Skills')
+            .forEach((tag) => {
+                addTagSkillsDeleteLink(tag)
+            })
+
+        // Experience
+        const addExperienceToCollection = (e) => {
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('div');
+            item.classList.add('tag-experience');
+            item.classList.add('col-sm-6');
+            item.classList.add('mt-3');
+            item.classList.add('form-control');
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+
+            collectionHolder.appendChild(item);
+
+            collectionHolder.dataset.index++;
+            // add a delete link to the new form
+            addTagExperienceDeleteLink(item);
+        };
+
+        const addTagExperienceDeleteLink = (item) => {
+            const removeFormButton = document.createElement('button');
+            removeFormButton.classList.add('btn-danger');
+            removeFormButton.innerText = 'X';
+
+            item.append(removeFormButton);
+
+            removeFormButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // remove the li for the tag form
+                item.remove();
+            });
+        }
+
+        document
+            .querySelectorAll('.add_experience_link')
+            .forEach(btn => {
+                btn.addEventListener("click", addExperienceToCollection)
+            });
+
+        document
+            .querySelectorAll('.tag-experience')
+            .forEach((tag) => {
+                addTagExperienceDeleteLink(tag)
             })
     </script>
 {% endblock %}

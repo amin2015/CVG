@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Theme;
+use App\Entity\SubTheme;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -15,14 +16,30 @@ class ThemeType extends AbstractType
     {
         $builder
             ->add('name', null, [
-                'label' => 'Nom du thème'
+                'label' => 'Nom du thème',
+                'attr' => [
+                    'class' => 'col-sm-3 mb-3'
+                ],
             ])
             ->add('type',  ChoiceType::class, [
                 'choices' => [
                     'Education' => 1,
                     'Skills' => 2,
-                ]
-            ]);
+                ],
+                'attr' => [
+                    'class' => 'col-sm-3 mb-3'
+                ],
+            ])
+            ->add('subTheme', CollectionType::class, [
+                'entry_type' => SubThemeType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'attr' => [
+                    'class' => 'col-sm-3 mb-3'
+                ],
+                'label' => false
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

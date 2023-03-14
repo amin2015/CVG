@@ -13,22 +13,64 @@
             {{ form_row(form.headerTitle, {"label": "Titre de l'entête", "attr": { "class": "form-control"}}) }}
         </div>
     </div>
+    <div class="input-group mb-3">
+        <div class="form-outline col-sm-8 mb-3">
+            {{ form_row(form.experienceYear, {"label": "Nombre d’années d’expérience", "attr": { "class": "form-control"}}) }}
+        </div>
+    </div>
     <div class="mb-10 row">
         <div class="form-outline col-sm-8 mb-3">
             {{ form_row(form.headerSkills, {"label": "Technologies de l'entête"}) }}
         </div>
     </div>
-    <div class="mb-10 row">
-        <h3>Thèmes</h3>
-        <ul class="theme d-lg-block"
-            data-index="{{ form.theme|length > 0 ? form.theme|last.vars.name + 1 : 0 }}"
-            data-prototype="{{ form_widget(form.theme.vars.prototype)|e('html_attr') }}">
-            <button type="button" class="add_item_link" data-collection-holder-class="theme">Ajouter un thème</button>
+    <div class="mb-10 row-cols-1 form-text form-control">
+        <h3>FORMATIONS</h3>
+        <ul class="trainning d-lg-block"
+            data-index="{{ form.trainning|length > 0 ? form.trainning|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.trainning.vars.prototype)|e('html_attr') }}">
+            <button type="button" class="add_trainning_link btn btn-secondary" data-collection-holder-class="trainning">Ajouter une Formation</button>
+        </ul>
+        <ul>
+            {{ form_row(form.trainning, {"attr": { "class": ""}}) }}
         </ul>
     </div>
-    <div class="row">
+    <div class="mb-10 row-cols-1 form-text form-control">
+        <h3>CERTIFICATIONS</h3>
+        <ul class="certification d-lg-block"
+            data-index="{{ form.certification|length > 0 ? form.certification|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.certification.vars.prototype)|e('html_attr') }}">
+            <button type="button" class="add_certification_link btn btn-secondary" data-collection-holder-class="certification">Ajouter une Certification</button>
+        </ul>
+        <ul>
+            {{ form_row(form.certification, {"attr": { "class": ""}}) }}
+        </ul>
+    </div>
+    <div class="mb-10 row-cols-1 form-text form-control">
+        <h3>COMPÉTENCES TECHNIQUES</h3>
+        <ul class="skills d-lg-block"
+            data-index="{{ form.skills|length > 0 ? form.skills|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.skills.vars.prototype)|e('html_attr') }}">
+            <button type="button" class="add_skills_link btn btn-secondary" data-collection-holder-class="skills">Ajouter une compétence</button>
+        </ul>
+        <ul>
+            {{ form_row(form.skills, {"attr": { "class": ""}}) }}
+        </ul>
+    </div>
+    <div class="mb-10 row-cols-1 form-text form-control">
+        <h3>EXPÉRIENCES</h3>
+        <ul class="experience d-lg-block"
+            data-index="{{ form.experience|length > 0 ? form.experience|last.vars.name + 1 : 0 }}"
+            data-prototype="{{ form_widget(form.experience.vars.prototype)|e('html_attr') }}">
+            <button type="button" class="add_experience_link btn btn-secondary" data-collection-holder-class="experience">Ajouter une expérience</button>
+        </ul>
+        <ul>
+            {{ form_row(form.experience, {"attr": { "class": ""}}) }}
+        </ul>
+    </div>
+
+    <div class="row mt-3">
         <div class="col">
-            {{ form_row(form.export, {"label": "Exporter", "attr": { "class": "btn btn-primary mb-3"}}) }}
+            {{ form_row(form.export, {"label": "Export", "attr": { "class": "btn btn-primary mb-3"}}) }}
         </div>
         <div class="col">
             {{ form_row(form.save, {"label": "Enregistrer", "attr": { "class": "btn btn-success mb-3"}}) }}

@@ -1,39 +1,48 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-           <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
-        {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <link rel="icon"
+          href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+    {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css') }}">
+    {% endblock %}
 
-        {% block javascripts %}
-            <!-- TinyMCE -->
-            <script src="{{ asset('assets/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
-            <script src="{{ asset('assets/js/jquery-3.6.0.js') }}" referrerpolicy="origin"></script>
-            <script>
-                tinymce.init({
-                    selector: '#profile_head, #profile_reference,#profile_personnelProjects, #profile_professionalExperience, #profile_footer',
-                    plugins: [
-                        'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
-                        'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
-                        'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
-                    ],
-                    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
-                        'bullist numlist checklist outdent indent | removeformat | code table help',
-                    init_instance_callback : function(editor) {
-                        document.querySelectorAll('[role="alert"]').forEach(function (el){
-                            el.style.display = 'none';
-                        });
-                    }
-                })
+    {% block javascripts %}
+        <!-- TinyMCE -->
+        <script src="{{ asset('assets/js/tinymce.min.js') }}" referrerpolicy="origin"></script>
+        <script src="{{ asset('assets/js/jquery-3.6.0.js') }}" referrerpolicy="origin"></script>
+        <script src="{{ asset('https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js') }}" referrerpolicy="origin"></script>
+        <script src="{{ asset('https://cdn.datatables.net/1.13.3/js/dataTables.bootstrap5.min.js') }}" referrerpolicy="origin"></script>
+        <script>
+            tinymce.init({
+                selector: '#profile_head, #profile_reference,#profile_personnelProjects, #profile_professionalExperience, #profile_footer',
+                plugins: [
+                    'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                    'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                    'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                ],
+                toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                    'bullist numlist checklist outdent indent | removeformat | code table help',
+                init_instance_callback: function (editor) {
+                    document.querySelectorAll('[role="alert"]').forEach(function (el) {
+                        el.style.display = 'none';
+                    });
+                }
+            })
 
-            </script>
-        {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    </body>
+            jQuery(document).ready(function () {
+                jQuery('.table-striped').DataTable({
+                    order: [[3, 'asc']],
+                });
+            });
+        </script>
+    {% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+</body>
 </html>

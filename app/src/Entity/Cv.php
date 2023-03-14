@@ -16,7 +16,7 @@ class Cv
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $headerTitle = null;
+        private ?string $headerTitle = null;
 
     #[ORM\Column(length: 255)]
     private ?string $headerSkills = null;
@@ -27,9 +27,28 @@ class Cv
     #[ORM\Column(length: 255)]
     private ?string $fileName = null;
 
+    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Trainning::class, cascade: ['persist'])]
+    private Collection $trainning;
+
+    #[ORM\Column]
+    private ?int $experienceYear = null;
+
+    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Certification::class, cascade: ['persist'])]
+    private Collection $certification;
+
+    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: TechnicalSkills::class, cascade: ['persist'])]
+    private Collection $skills;
+
+    #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Experience::class, cascade: ['persist'])]
+    private Collection $experience;
+
     public function __construct()
     {
         $this->theme = new ArrayCollection();
+        $this->trainning = new ArrayCollection();
+        $this->certification = new ArrayCollection();
+        $this->skills = new ArrayCollection();
+        $this->experience = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -99,6 +118,138 @@ class Cv
     public function setFileName(string $fileName): self
     {
         $this->fileName = $fileName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trainning>
+     */
+    public function gettrainning(): Collection
+    {
+        return $this->trainning;
+    }
+
+    public function addtrainning(Trainning $trainning): self
+    {
+        if (!$this->trainning->contains($trainning)) {
+            $this->trainning->add($trainning);
+            $trainning->setCv($this);
+        }
+
+        return $this;
+    }
+
+    public function removetrainning(Trainning $trainning): self
+    {
+        if ($this->trainning->removeElement($trainning)) {
+            // set the owning side to null (unless already changed)
+            if ($trainning->getCv() === $this) {
+                $trainning->setCv(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getExperienceYear(): ?int
+    {
+        return $this->experienceYear;
+    }
+
+    public function setExperienceYear(int $experienceYear): self
+    {
+        $this->experienceYear = $experienceYear;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Certification>
+     */
+    public function getCertification(): Collection
+    {
+        return $this->certification;
+    }
+
+    public function addCertification(Certification $certification): self
+    {
+        if (!$this->certification->contains($certification)) {
+            $this->certification->add($certification);
+            $certification->setCv($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCertification(Certification $certification): self
+    {
+        if ($this->certification->removeElement($certification)) {
+            // set the owning side to null (unless already changed)
+            if ($certification->getCv() === $this) {
+                $certification->setCv(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TechnicalSkills>
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(TechnicalSkills $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+            $skill->setCv($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(TechnicalSkills $skill): self
+    {
+        if ($this->skills->removeElement($skill)) {
+            // set the owning side to null (unless already changed)
+            if ($skill->getCv() === $this) {
+                $skill->setCv(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Experience>
+     */
+    public function getExperience(): Collection
+    {
+        return $this->experience;
+    }
+
+    public function addExperience(Experience $experience): self
+    {
+        if (!$this->experience->contains($experience)) {
+            $this->experience->add($experience);
+            $experience->setCv($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience): self
+    {
+        if ($this->experience->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getCv() === $this) {
+                $experience->setCv(null);
+            }
+        }
 
         return $this;
     }

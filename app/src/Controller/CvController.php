@@ -14,17 +14,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/cv')]
 class CvController extends AbstractController
 {
-    #[Route('/', name: 'app_cv')]
+    #[Route('/', name: 'cv_list')]
     public function index(EntityManagerInterface $em): Response
     {
-        $cv = $em->getRepository(Cv::class)->findAll();
+        $cvList = $em->getRepository(Cv::class)->findAll();
         return $this->render('cv/index.html.twig', [
             'controller_name' => 'CvController',
-            'cv' => $cv
+            'cvList' => $cvList
         ]);
     }
 
-    #[Route('/new', name: 'app_cv_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'cv_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em, PhpDoc $phpDoc): Response
     {
         $cv = new Cv();
@@ -34,8 +34,30 @@ class CvController extends AbstractController
             if($form->get('save')->isClicked()){
                 $em->persist($cv);
                 $em->flush();
-                return $this->redirectToRoute('app_cv');
+                return $this->redirectToRoute('cv_list');
             }else{
+                //dd($form->get('trainning')->getData());
+                return $phpDoc->generatePhpWord($form);
+            }
+        }
+        return $this->render('cv/new.html.twig', [
+            'controller_name' => 'CvCon_newtroller',
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/edit/{id}', name: 'cv_edit', methods: ['GET', 'POST'])]
+    public function edit(Cv $cv, Request $request, EntityManagerInterface $em, PhpDoc $phpDoc): Response
+    {
+        $form = $this->createForm(CvType::class, $cv);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            if($form->get('save')->isClicked()){
+                $em->persist($cv);
+                $em->flush();
+                return $this->redirectToRoute('cv_list');
+            }else{
+                //dd($form->get('trainning')->getData());
                 return $phpDoc->generatePhpWord($form);
             }
         }
