@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\CvRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CvRepository::class)]
 class Cv
@@ -16,22 +18,26 @@ class Cv
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-        private ?string $headerTitle = null;
+    #[Assert\NotBlank]
+    private ?string $fileName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    private ?string $headerTitle = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank]
+    private ?int $experienceYear = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $headerSkills = null;
 
     #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Theme::class, cascade: ['persist'])]
     private Collection $theme;
 
-    #[ORM\Column(length: 255)]
-    private ?string $fileName = null;
-
     #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Trainning::class, cascade: ['persist'])]
     private Collection $trainning;
-
-    #[ORM\Column]
-    private ?int $experienceYear = null;
 
     #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Certification::class, cascade: ['persist'])]
     private Collection $certification;
@@ -41,6 +47,9 @@ class Cv
 
     #[ORM\OneToMany(mappedBy: 'cv', targetEntity: Experience::class, cascade: ['persist'])]
     private Collection $experience;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $footer = null;
 
     public function __construct()
     {
@@ -250,6 +259,18 @@ class Cv
                 $experience->setCv(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFooter(): ?string
+    {
+        return $this->footer;
+    }
+
+    public function setFooter(?string $footer): self
+    {
+        $this->footer = $footer;
 
         return $this;
     }

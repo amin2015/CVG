@@ -62,6 +62,12 @@ class CvType extends AbstractType
                 ],
                 'label' => false
             ])
+            ->add('footer', null, [
+                'label' => 'Missions',
+                'attr' => [
+                    'rows' => 4
+                ]
+            ])
             ->add('export', SubmitType::class)
             ->add('save', SubmitType::class)
         ;

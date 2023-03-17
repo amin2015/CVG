@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TechnicalSkillsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TechnicalSkillsRepository::class)]
 class TechnicalSkills
@@ -14,9 +15,11 @@ class TechnicalSkills
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $skills = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $techniques = null;
 
     #[ORM\ManyToOne(inversedBy: 'skills')]

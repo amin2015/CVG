@@ -36,13 +36,14 @@ class PhpDoc
         } else {
             $filePath = "cv.docx";
         }
+
         /** Header */
         $headerStyleTable = ['width' => '31 cm', 'unit' => 'pct', 'cellMarginBottom' => Converter::cmToTwip(0.5), 'alignment' => JcTable::CENTER, 'gridSpan' => 2];
         /** Header table */
         $table = $section->addTable($headerStyleTable);
         /* Row header title  */
         $table->addRow(1500);
-        $headerStyleCell = ['bgColor' => '2f5496', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '2f5496', 'gridSpan' => 2];
+        $headerStyleCell = ['bgColor' => '42703d', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '42703d', 'gridSpan' => 2];
         $headerCell = $table->addCell(900, $headerStyleCell);
         $headerText = $headerCell->addTextRun(['align' => 'center']);
         $headerFontStyle = ['bold' => true, 'color' => 'FFFFFF', 'size' => 16, 'name' => 'calibri light'];
@@ -58,9 +59,9 @@ class PhpDoc
         /* Row header title */
         $table->addRow(1500);
         /* Cell skills */
-        $skillsFontStyle = ['bold' => true, 'color' => '2f5496', 'size' => 14, 'bold' => true, 'name' => 'calibri light'];
+        $skillsFontStyle = ['bold' => true, 'color' => '42703d', 'size' => 14, 'bold' => true, 'name' => 'calibri light'];
         $skillsCell = $table->addCell(900, $headerStyleCell);
-        $skillsStyleCell = ['bgColor' => 'FFFFFF', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '2f5496', 'borderStyle' => \PhpOffice\PhpWord\SimpleType\Border::THICK,];
+        $skillsStyleCell = ['bgColor' => 'FFFFFF', 'height' => 60, 'align' => 'center', 'valign' => 'center', 'borderColor' => '42703d', 'borderRadius' => '10%'];
         $skillsCell = $skillsCell->addTable($skillsStyleCell)->addRow(1000)->addCell(9000, $skillsStyleCell);
         $skillsCell->addText($form['headerSkills']->getData(), $skillsFontStyle);
 
@@ -74,10 +75,10 @@ class PhpDoc
         $phpWord->addTableStyle($trainningTableName, $trainningTable);
         $table = $section->addTable($trainningTableName);
         $table->addRow(900);
-        $table->addCell(700, $trainningCellStyle)->addImage($this->params->get('icons_directory') . 'diploma.gif', ['height' => 25, 'width' => 30]);
-        $table->addCell(7300, $trainningCellStyle)->addText('Formations', ['color' => '2f5496', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
+        $table->addCell(700, $trainningCellStyle)->addImage($this->params->get('icons_directory') . 'diploma-text.png', ['height' => 25, 'width' => 30]);
+        $table->addCell(7300, $trainningCellStyle)->addText('Formations', ['color' => '42703d', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
         /* Line */
-        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '2f5496']);
+        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '42703d']);
 
         /* Trainning rows */
         $table = $section->addTable($trainningTableName);
@@ -85,7 +86,7 @@ class PhpDoc
 
         foreach ($form->get('trainning')->getData() as $trainning) {
             $table->addRow(900);
-            $table->addCell(1500, $trainningRowStyleCell)->addText($trainning->getYear(), ['color' => '2f5496', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
+            $table->addCell(1500, $trainningRowStyleCell)->addText($trainning->getYear(), ['color' => '42703d', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
             $table->addCell(6500, $trainningRowStyleCell)->addText($trainning->getQualification(), ['color' => '131313', 'size' => 12, 'name' => 'calibri light']);
         }
 
@@ -96,10 +97,10 @@ class PhpDoc
         $phpWord->addTableStyle($certificationTableName, $certificationTable);
         $table = $section->addTable($certificationTableName);
         $table->addRow(900);
-        $table->addCell(700, $certificationCellStyle)->addImage($this->params->get('icons_directory') . 'diploma.gif', ['height' => 25, 'width' => 30]);
-        $table->addCell(7300, $certificationCellStyle)->addText('CERTIFICATIONS', ['color' => '2f5496', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
+        $table->addCell(700, $certificationCellStyle)->addImage($this->params->get('icons_directory') . 'diploma.png', ['height' => 25, 'width' => 30]);
+        $table->addCell(7300, $certificationCellStyle)->addText('CERTIFICATIONS', ['color' => '42703d', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
         /* Line */
-        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '2f5496']);
+        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '42703d']);
 
         /* Certification rows */
         $table = $section->addTable($certificationTableName);
@@ -107,7 +108,7 @@ class PhpDoc
 
         foreach ($form->get('certification')->getData() as $certification) {
             $table->addRow(900);
-            $table->addCell(1500, $certificationRowStyleCell)->addText($certification->getYear(), ['color' => '2f5496', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
+            $table->addCell(1500, $certificationRowStyleCell)->addText($certification->getYear(), ['color' => '42703d', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
             /* Break */
             $table->addCell(6500, $certificationRowStyleCell)->addText($certification->getDescription(), ['color' => '131313', 'size' => 12, 'name' => 'calibri light']);
         }
@@ -119,15 +120,15 @@ class PhpDoc
         $phpWord->addTableStyle($skillsTableName, $skillsTable);
         $table = $section->addTable($skillsTableName);
         $table->addRow(900);
-        $table->addCell(700, $skillsCellStyle)->addImage($this->params->get('icons_directory') . 'manip.gif', ['height' => 25, 'width' => 30]);
-        $table->addCell(7300, $skillsCellStyle)->addText('COMPÉTENCES TECHNIQUES', ['color' => '2f5496', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
+        $table->addCell(700, $skillsCellStyle)->addImage($this->params->get('icons_directory') . 'wrench.png', ['height' => 25, 'width' => 30]);
+        $table->addCell(7300, $skillsCellStyle)->addText('COMPÉTENCES TECHNIQUES', ['color' => '42703d', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
         /* Line */
-        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '2f5496']);
+        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '42703d']);
 
         foreach ($form->get('skills')->getData() as $skills) {
             /* Break */
             $section->addTextBreak(1);
-            $section->addText($skills->getSkills(), ['color' => '2f5496', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
+            $section->addText($skills->getSkills(), ['color' => '42703d', 'bold' => true, 'size' => 12, 'name' => 'calibri light']);
             $section->addText($skills->getTechniques(), ['color' => '131313', 'size' => 12, 'name' => 'calibri light']);
             /* Break */
             $section->addTextBreak(1);
@@ -140,10 +141,10 @@ class PhpDoc
         $phpWord->addTableStyle($experienceTableName, $experienceTable);
         $table = $section->addTable($experienceTableName);
         $table->addRow(900);
-        $table->addCell(700, $experienceCellStyle)->addImage($this->params->get('icons_directory') . 'sac.gif', ['height' => 25, 'width' => 30]);
-        $table->addCell(7300, $experienceCellStyle)->addText('EXPÉRIENCES', ['color' => '2f5496', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
+        $table->addCell(700, $experienceCellStyle)->addImage($this->params->get('icons_directory') . 'briefcase.png', ['height' => 25, 'width' => 30]);
+        $table->addCell(7300, $experienceCellStyle)->addText('EXPÉRIENCES', ['color' => '42703d', 'size' => 16, 'bold' => true, 'name' => 'calibri light']);
         /* Line */
-        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '2f5496']);
+        $section->addText('', [], ['borderBottomSize' => 1, 'borderColor' => '42703d']);
         /* Break */
         $section->addTextBreak(2);
         foreach ($form->get('experience')->getData() as $experience) {
@@ -151,16 +152,16 @@ class PhpDoc
             $experienceStyleTable = ['alignment' => JcTable::CENTER, 'cellMargin' => 200, 'borderSize' => 0.2, 'borderColor' => 'f6f6f6'];
             /** Header table */
             $table = $section->addTable($experienceStyleTable);
-            $cellRowTitle = ['vMerge' => 'restart', 'bgColor' => '2f5496', 'height' => 200, 'align' => 'center', 'valign' => 'center', 'borderColor' => 'f6f6f6'];
+            $cellRowTitle = ['vMerge' => 'restart', 'bgColor' => '42703d', 'height' => 200, 'align' => 'center', 'valign' => 'center', 'borderColor' => 'f6f6f6'];
             /* Break */
             $row = $table->addRow();
-            $row->addCell(2000, $cellRowTitle)->addImage($this->params->get('icons_directory') . 'local.gif', ['width' => 32, 'align' => 'right']);
+            $row->addCell(2000, $cellRowTitle)->addImage($this->params->get('icons_directory') . 'local.png', ['width' => 32, 'align' => 'right']);
             $row->addCell(4000, $cellRowTitle)->addText($experience->getTitle(), ['color' => 'ffffff', 'size' => 14, 'name' => 'calibri light']);
             $cellRowJob = ['vMerge' => 'restart', 'bgColor' => 'f6f6f6', 'align' => 'center', 'valign' => 'center', 'borderColor' => 'f6f6f6'];
             $row->addCell(700, $cellRowJob)->addImage($this->params->get('icons_directory') . 'user.gif', ['width' => 32, 'align' => 'left']);
             $cellRowJob = ['bgColor' => 'f6f6f6', 'borderColor' => 'f6f6f6', 'align' => 'center', 'valign' => 'bottom'];
             $cell = $row->addCell(5300, $cellRowJob);
-            $cell->addText(' ' . $experience->getJob(), ['bold' => true, 'color' => '2f5496', 'size' => 13, 'name' => 'calibri light', 'valign' => 'bottom']);
+            $cell->addText(' ' . $experience->getJob(), ['bold' => true, 'color' => '42703d', 'size' => 13, 'name' => 'calibri light', 'valign' => 'bottom']);
             $row = $table->addRow();
             $cellRowContinue = ['vMerge' => 'continue'];
             $row->addCell(null, $cellRowContinue);
@@ -173,10 +174,10 @@ class PhpDoc
             $row = $table->addRow();
             $cellRowJob = ['vMerge' => 'restart', 'bgColor' => 'f6f6f6', 'align' => 'left', 'valign' => 'top', 'borderColor' => 'f6f6f6'];
             $cellImgCalendar = $row->addCell(500, $cellRowJob);
-            $cellImgCalendar->addImage($this->params->get('icons_directory') . 'calendar.gif', ['height' => 18, 'width' => 20, 'valign' => 'top']);
+            $cellImgCalendar->addImage($this->params->get('icons_directory') . 'agenda.png', ['height' => 18, 'width' => 20, 'valign' => 'top']);
             $cellRowJob = ['vMerge' => 'restart', 'bgColor' => 'f6f6f6', 'height' => 200, 'align' => 'center', 'valign' => 'top', 'borderColor' => 'f6f6f6'];
             $cellPeriod = $row->addCell(4500, $cellRowJob);
-            $cellPeriod->addText($experience->getPeriod(), ['color' => '2f5496', 'size' => 13, 'name' => 'calibri light', 'valign' => 'top']);
+            $cellPeriod->addText($experience->getPeriod(), ['color' => '42703d', 'size' => 13, 'name' => 'calibri light', 'valign' => 'top']);
             /* Break */
             $section->addTextBreak(2);
             /* Missions */
@@ -208,14 +209,26 @@ class PhpDoc
             $phpWord->addTableStyle($envTableName, $envTable);
             $table = $section->addTable($envTableName);
             $table->addRow(1500);
-            $cell = $table->addCell(null, ['borderColor' => 'e7e6e6', 'bgColor' => 'e7e6e6', 'cellMargin' => 10]);
-            $cell->addText('Environnement technique', ['color' => '2f5496', 'size' => 13, 'bold' => true, 'name' => 'calibri light']);
+            $cell = $table->addCell(null, ['borderColor' => 'e7e6e6', 'bgColor' => 'e7e6e6', 'cellMargin' => 10, 'valign' => 'center']);
+            $cell->addText('Environnement technique', ['color' => '42703d', 'size' => 13, 'bold' => true, 'name' => 'calibri light']);
             /* Break */
             $section->addTextBreak(1);
-            $cell->addText($experience->getEnvironment(), ['color' => '131313', 'size' => 12, 'name' => 'calibri light']);
+            $cell->addText($experience->getEnvironment(), ['color' => '131313', 'size' => 11, 'name' => 'calibri light']);
             /* Break */
             $section->addTextBreak(2);
         }
+
+        /* Footer */
+        $footer = $section->addFooter();
+        $footer->addImage($this->params->get('icons_directory') . 'logo.gif', ['height' => 30, 'width' => 35, 'align' => 'center']);
+        $arrayFooter = explode(PHP_EOL, $form->get('footer')->getData());
+        foreach ($arrayFooter as $item) {
+            $phpWord->addFontStyle('footerFontStyle', ['color' => '666666', 'size' => 10, 'name' => 'calibri light']);
+            $phpWord->addParagraphStyle('footerPragStyle', array('align'=>'center', 'spaceAfter'=>100));
+            $footer->addText($item, 'footerFontStyle', 'footerPragStyle');
+        }
+
+
 
         /** Object writer */
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
