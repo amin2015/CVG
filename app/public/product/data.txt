@@ -1,0 +1,23 @@
+
+nom du fichier
+nom de produit
+fabricant
+code unique
+categorie
+norme
+système(s) d’évaluation et de vérification
+organisme notifié
+date d'émission
+essence
+réaction au feu
+la densité minimale moyenne
+epaisseur totale minimale /minimale
+les conditions d’utilisation
+dégagement de formaldehyde
+teneur pcp
+perméabilité à la vapeur d’eau
+absorption acoustique
+conductivité thermique
+durabilité biologiques
+dégagement d’autres substances dangereuses
+tenue des fixations
