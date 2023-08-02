@@ -1,7 +1,17 @@
+{% if form_errors(form) %}
+    <div class="alert alert-danger">
+        {{ form_errors(form) }}
+    </div>
+{% endif %}
 <div class="p-4 mb-3 border rounded-3 bg-light">
     {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
     <div class="my-custom-class-for-errors">
         {{ form_errors(form) }}
+    </div>
+    <div class="b-10 row">
+        <div class="form-check form-switch col-sm-8 mb-3">
+            {{ form_row(form.isSynergie, {"label": "Synergie", "attr": { "class": "form-check-label"}}) }}
+        </div>
     </div>
     <div class="b-10 row">
         <div class="form-outline col-sm-8 mb-3">

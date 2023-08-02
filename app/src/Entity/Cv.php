@@ -49,7 +49,11 @@ class Cv
     private Collection $experience;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Ce champ ne doit pas être vide')]
     private ?string $footer = null;
+
+    #[ORM\Column]
+    private ?bool $isSynergie = null;
 
     public function __construct()
     {
@@ -271,6 +275,18 @@ class Cv
     public function setFooter(?string $footer): self
     {
         $this->footer = $footer;
+
+        return $this;
+    }
+
+    public function isIsSynergie(): ?bool
+    {
+        return $this->isSynergie;
+    }
+
+    public function setIsSynergie(bool $isSynergie): self
+    {
+        $this->isSynergie = $isSynergie;
 
         return $this;
     }

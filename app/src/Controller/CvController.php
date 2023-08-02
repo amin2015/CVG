@@ -36,7 +36,6 @@ class CvController extends AbstractController
                 $em->flush();
                 return $this->redirectToRoute('cv_list');
             }else{
-                //dd($form->get('trainning')->getData());
                 return $phpDoc->generatePhpWord($form);
             }
         }
@@ -57,7 +56,6 @@ class CvController extends AbstractController
                 $em->flush();
                 return $this->redirectToRoute('cv_list');
             }else{
-                //dd($form->get('trainning')->getData());
                 return $phpDoc->generatePhpWord($form);
             }
         }
